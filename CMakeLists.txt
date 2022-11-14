@@ -1,0 +1,68 @@
+cmake_minimum_required(VERSION 3.22)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+if(WIN32)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
+
+project(path C)
+
+add_library(path OBJECT)
+
+set_target_properties(
+  path
+  PROPERTIES
+  C_STANDARD 99
+  POSITION_INDEPENDENT_CODE 1
+)
+
+target_sources(
+  path
+  INTERFACE
+    include/path.h
+    include/path/posix.h
+    include/path/win.h
+  PRIVATE
+    src/path.c
+    src/posix/dirname.h
+    src/posix/is-absolute.h
+    src/posix/join.h
+    src/posix/normalize.h
+    src/win/dirname.h
+    src/win/is-absolute.h
+    src/win/join.h
+    src/win/normalize.h
+    src/win/shared.h
+)
+
+target_include_directories(
+  path
+  PUBLIC
+    include
+)
+
+add_library(path_shared SHARED $<TARGET_OBJECTS:path>)
+
+set_target_properties(
+  path_shared
+  PROPERTIES
+  OUTPUT_NAME path
+)
+
+add_library(path_static STATIC $<TARGET_OBJECTS:path>)
+
+set_target_properties(
+  path_static
+  PROPERTIES
+  OUTPUT_NAME path
+)
+
+install(TARGETS path_shared path_static)
+
+install(FILES include/path.h DESTINATION include)
+
+if(PROJECT_IS_TOP_LEVEL)
+  enable_testing()
+  add_subdirectory(test)
+endif()

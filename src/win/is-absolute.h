@@ -15,13 +15,13 @@ path_is_absolute_windows (const char *path) {
 
   if (path_len == 0) return false;
 
-  if (path[0] == path_separator_windows) return true;
+  if (path_is_separator(path[0])) return true;
 
   return (
     path_len > 2 &&
     is_windows_device_root(path[0]) &&
     path[1] == ':' &&
-    path[2] == path_separator_windows
+    path_is_separator(path[2])
   );
 }
 

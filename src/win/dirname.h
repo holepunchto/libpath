@@ -25,7 +25,7 @@ path_dirname_windows (const char *path, size_t *len) {
   for (size_t i = path_len - 1; i >= 1; i--) {
     char c = path[i];
 
-    if (c == path_separator_windows) {
+    if (path_is_separator(c)) {
       if (!found_separator) {
         end = i;
         break;

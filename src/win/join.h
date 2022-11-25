@@ -39,9 +39,7 @@ path_join_windows (const char *fragments[], char *buf, size_t *len) {
 
   *len = offset;
 
-  int e = path_normalize_windows(buf, buf, len);
-
-  return 0;
+  return path_normalize_windows(buf, buf, len);
 
 err:
   return -1;

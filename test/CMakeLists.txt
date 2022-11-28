@@ -4,6 +4,7 @@ list(APPEND tests
   posix/normalize
   win/dirname
   win/join
+  win/normalize
 )
 
 foreach(test IN LISTS tests)

@@ -1,6 +1,6 @@
 # libtt
 
-Low-level filesystem path manipulation functions.
+Low-level filesystem path manipulation library.
 
 ## API
 

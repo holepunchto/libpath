@@ -22,12 +22,12 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
 
   bool is_first_segment = !is_absolute;
 
-  bool has_trailing_sep = path[path_len - 1] == path_separator_posix;
+  bool has_trailing_sep = path_is_posix_separator(path[path_len - 1]);
 
   size_t i = 0, offset = 0;
 
   if (is_absolute) {
-    while (path[i] == path_separator_posix) {
+    while (path_is_posix_separator(path[i])) {
       i++;
     }
   }
@@ -35,7 +35,7 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
   while (path[i] != '\0') {
     size_t len = 0;
 
-    while (path[i + len] != path_separator_posix && path[i + len] != '\0') {
+    while (!path_is_posix_separator(path[i + len]) && path[i + len] != '\0') {
       len++;
     }
 
@@ -77,7 +77,7 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
   skip:
     i += len;
 
-    while (path[i] == path_separator_posix) {
+    while (path_is_posix_separator(path[i])) {
       i++;
     }
   }
@@ -87,7 +87,7 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
     offset += 1;
   }
 
-  if (has_trailing_sep && buf[offset - 1] != path_separator_posix) {
+  if (has_trailing_sep && !path_is_posix_separator(buf[offset - 1])) {
     strcpy(buf + offset, "/");
     offset += 1;
   }

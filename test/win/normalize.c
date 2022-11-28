@@ -9,7 +9,7 @@
 #define test_normalize(path, expected) \
   { \
     size_t len = PATH_MAX; \
-    int err = path_normalize(path, buf, &len, path_separator_windows); \
+    int err = path_normalize(path, buf, &len, path_behavior_windows); \
     printf("%s -> %s\n", path, buf); \
     assert(err == 0); \
     assert(len == strlen(expected)); \

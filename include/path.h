@@ -24,6 +24,13 @@ typedef enum {
 
 static const path_delimiter_t path_delimiter_system;
 
+typedef enum {
+  path_behavior_posix,
+  path_behavior_windows
+} path_behavior_t;
+
+static const path_behavior_t path_behavior_system;
+
 #if defined(_WIN32)
 #include "path/win.h"
 #else
@@ -31,20 +38,20 @@ static const path_delimiter_t path_delimiter_system;
 #endif
 
 int
-path_dirname (const char *path, size_t *len, path_separator_t separator);
+path_dirname (const char *path, size_t *len, path_behavior_t behavior);
 
 int
-path_join (const char *fragments[], char *buf, size_t *len, path_separator_t separator);
+path_join (const char *fragments[], char *buf, size_t *len, path_behavior_t behavior);
 
 int
-path_normalize (const char *path, char *buf, size_t *len, path_separator_t separator);
+path_normalize (const char *path, char *buf, size_t *len, path_behavior_t behavior);
 
 bool
-path_is_absolute (const char *path, path_separator_t separator);
+path_is_absolute (const char *path, path_behavior_t behavior);
 
 inline bool
-path_is_relative (const char *path, path_separator_t separator) {
-  return !path_is_absolute(path, separator);
+path_is_relative (const char *path, path_behavior_t behavior) {
+  return !path_is_absolute(path, behavior);
 }
 
 inline bool

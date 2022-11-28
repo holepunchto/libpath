@@ -9,7 +9,7 @@
 #define test_join(expected, ...) \
   { \
     size_t len = PATH_MAX; \
-    int err = path_join((const char *[]){__VA_ARGS__}, buf, &len, path_separator_windows); \
+    int err = path_join((const char *[]){__VA_ARGS__}, buf, &len, path_behavior_windows); \
     printf("\"%s\"\n", buf); \
     assert(err == 0); \
     assert(len == strlen(expected)); \

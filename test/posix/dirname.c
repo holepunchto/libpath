@@ -8,7 +8,7 @@
 #define test_dirname(path, expected) \
   { \
     size_t len; \
-    int err = path_dirname(path, &len, path_separator_posix); \
+    int err = path_dirname(path, &len, path_behavior_posix); \
     printf("\"%s\" -> \"%.*s\"\n", path, (int) len, path); \
     assert(err == 0); \
     assert(len == expected); \

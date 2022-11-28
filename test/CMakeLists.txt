@@ -1,6 +1,7 @@
 list(APPEND tests
   posix/dirname
   posix/join
+  posix/normalize
   win/dirname
   win/join
 )

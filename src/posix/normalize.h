@@ -9,18 +9,86 @@ static inline int
 path_normalize_posix (const char *path, char *buf, size_t *len) {
   if (!path || !buf || !len) goto err;
 
-  if (*len < 1) goto err;
+  size_t path_len = strlen(path);
 
-  size_t offset = 0;
+  if (path_len == 0) {
+    *len = 0;
+    return 0;
+  }
 
-  for (size_t i = 0;; i++) {
-    char c = path[i];
-    if (c == '\0') break;
+  bool is_absolute = path_is_absolute_posix(path);
 
-    if (*len - 1 <= offset) goto err;
+  bool is_above_root = false;
 
-    buf[i] = c;
+  bool is_first_segment = !is_absolute;
 
+  bool has_trailing_sep = path[path_len - 1] == path_separator_posix;
+
+  size_t i = 0, offset = 0;
+
+  if (is_absolute) {
+    while (path[i] == path_separator_posix) {
+      i++;
+    }
+  }
+
+  while (path[i] != '\0') {
+    size_t len = 0;
+
+    while (path[i + len] != path_separator_posix && path[i + len] != '\0') {
+      len++;
+    }
+
+    if (len == 0) continue;
+
+    if (len == 1 && strncmp(".", &path[i], 1) == 0) {
+      goto skip;
+    }
+
+    if (len == 2 && strncmp("..", &path[i], 2) == 0 && !is_above_root) {
+      buf[offset] = '\0';
+
+      size_t dirname = offset;
+      path_dirname_posix(buf, &dirname);
+
+      if (dirname) {
+        buf[offset = dirname - (is_absolute ? 0 : 1)] = '\0';
+        goto skip;
+      } else {
+        is_above_root = true;
+        is_first_segment = !is_absolute;
+
+        if (offset) {
+          buf[offset = 0] = '\0';
+          goto skip;
+        }
+      }
+    }
+
+    if (is_first_segment) is_first_segment = false;
+    else {
+      strcpy(buf + offset, "/");
+      offset += 1;
+    }
+
+    strncpy(buf + offset, &path[i], len);
+    offset += len;
+
+  skip:
+    i += len;
+
+    while (path[i] == path_separator_posix) {
+      i++;
+    }
+  }
+
+  if (offset == 0) {
+    strcpy(buf, ".");
+    offset += 1;
+  }
+
+  if (has_trailing_sep && buf[offset - 1] != path_separator_posix) {
+    strcpy(buf + offset, "/");
     offset += 1;
   }
 

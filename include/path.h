@@ -43,6 +43,11 @@ bool
 path_is_absolute (const char *path, path_separator_t separator);
 
 inline bool
+path_is_relative (const char *path, path_separator_t separator) {
+  return !path_is_absolute(path, separator);
+}
+
+inline bool
 path_is_separator (char code) {
   return code == path_separator_posix || code == path_separator_windows;
 }

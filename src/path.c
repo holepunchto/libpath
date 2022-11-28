@@ -51,6 +51,9 @@ path_is_absolute (const char *path, path_separator_t separator) {
 }
 
 extern bool
+path_is_relative (const char *path, path_separator_t separator);
+
+extern bool
 path_is_separator (char code);
 
 extern bool

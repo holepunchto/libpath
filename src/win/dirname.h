@@ -35,7 +35,9 @@ path_dirname_windows (const char *path, size_t *len) {
     }
   }
 
-  if (end == 0) *len = 0;
+  bool has_root = path_is_separator(path[0]);
+
+  if (end == 0) *len = has_root ? 1 : 0;
   else *len = end + 1;
 
   return 0;

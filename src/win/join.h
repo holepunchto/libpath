@@ -23,21 +23,15 @@ path_join_windows (const char *fragments[], char *buf, size_t *len) {
     if (fragment_len == 0) continue;
 
     if (i > 0) {
-      if (*len - 1 <= offset) goto err;
-
-      buf[offset++] = path_separator_windows;
+      int err = path_copy(buf, &offset, *len, "\\", 1);
+      if (err < 0) goto err;
     }
 
-    if (*len - 1 <= offset + fragment_len) goto err;
-
-    strcpy(&buf[offset], fragment);
-
-    offset += fragment_len;
+    int err = path_copy(buf, &offset, *len, fragment, fragment_len);
+    if (err < 0) goto err;
   }
 
   buf[offset] = '\0';
-
-  *len = offset;
 
   return path_normalize_windows(buf, buf, len);
 

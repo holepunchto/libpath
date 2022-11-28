@@ -1,38 +1,29 @@
 #include <assert.h>
 #include <limits.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "../../include/path.h"
 
-static path_separator_t sep = path_separator_posix;
+#define test_join(expected, ...) \
+  { \
+    size_t len = PATH_MAX; \
+    int err = path_join((const char *[]){__VA_ARGS__}, buf, &len, path_separator_posix); \
+    printf("\"%s\"\n", buf); \
+    assert(err == 0); \
+    assert(len == strlen(expected)); \
+    assert(strcmp(buf, expected) == 0); \
+  }
 
 int
 main () {
-  int e;
   char buf[PATH_MAX];
 
-  {
-    size_t len = PATH_MAX;
-    e = path_join((const char *[]){NULL}, buf, &len, sep);
-    assert(e == 0);
-    assert(len == 0);
-    assert(strcmp(buf, "") == 0);
-  }
-  {
-    size_t len = PATH_MAX;
-    e = path_join((const char *[]){"a", NULL}, buf, &len, sep);
-    assert(e == 0);
-    assert(len == 1);
-    assert(strcmp(buf, "a") == 0);
-  }
-  {
-    size_t len = PATH_MAX;
-    e = path_join((const char *[]){"a", "b", "c", NULL}, buf, &len, sep);
-    assert(e == 0);
-    assert(len == 5);
-    assert(strcmp(buf, "a/b/c") == 0);
-  }
+  test_join("", NULL);
+  test_join("a", "a", NULL);
+  test_join("a/b", "a", "b", NULL);
+  test_join("a/b/c", "a", "b", "c", NULL);
 
   return 0;
 }

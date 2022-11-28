@@ -25,7 +25,7 @@ path_dirname_posix (const char *path, size_t *len) {
   for (size_t i = path_len - 1; i >= 1; i--) {
     char c = path[i];
 
-    if (c == path_separator_posix) {
+    if (path_is_posix_separator(c)) {
       if (!found_separator) {
         end = i;
         break;
@@ -35,7 +35,7 @@ path_dirname_posix (const char *path, size_t *len) {
     }
   }
 
-  bool has_root = path[0] == path_separator_posix;
+  bool has_root = path_is_posix_separator(path[0]);
 
   if (end == 0) *len = has_root ? 1 : 0;
   else *len = end + 1;

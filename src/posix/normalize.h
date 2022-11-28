@@ -4,10 +4,13 @@
 #include <string.h>
 
 #include "../../include/path.h"
+#include "../shared.h"
 
 static inline int
 path_normalize_posix (const char *path, char *buf, size_t *len) {
   if (!path || !buf || !len) goto err;
+
+  if (*len < 1) goto err;
 
   size_t path_len = strlen(path);
 
@@ -33,19 +36,19 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
   }
 
   while (path[i] != '\0') {
-    size_t len = 0;
+    size_t n = 0;
 
-    while (!path_is_posix_separator(path[i + len]) && path[i + len] != '\0') {
-      len++;
+    while (!path_is_posix_separator(path[i + n]) && path[i + n] != '\0') {
+      n++;
     }
 
-    if (len == 0) continue;
+    if (n == 0) continue;
 
-    if (len == 1 && strncmp(".", &path[i], 1) == 0) {
+    if (n == 1 && strncmp(".", &path[i], 1) == 0) {
       goto skip;
     }
 
-    if (len == 2 && strncmp("..", &path[i], 2) == 0 && !is_above_root) {
+    if (n == 2 && strncmp("..", &path[i], 2) == 0 && !is_above_root) {
       buf[offset] = '\0';
 
       size_t dirname = offset;
@@ -67,15 +70,15 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
 
     if (is_first_segment) is_first_segment = false;
     else {
-      strcpy(buf + offset, "/");
-      offset += 1;
+      int err = path_copy(buf, &offset, *len, "/", 1);
+      if (err < 0) goto err;
     }
 
-    strncpy(buf + offset, &path[i], len);
-    offset += len;
+    int err = path_copy(buf, &offset, *len, &path[i], n);
+    if (err < 0) goto err;
 
   skip:
-    i += len;
+    i += n;
 
     while (path_is_posix_separator(path[i])) {
       i++;
@@ -83,13 +86,13 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
   }
 
   if (offset == 0) {
-    strcpy(buf, ".");
-    offset += 1;
+    int err = path_copy(buf, &offset, *len, ".", 1);
+    if (err < 0) goto err;
   }
 
   if (has_trailing_sep && !path_is_posix_separator(buf[offset - 1])) {
-    strcpy(buf + offset, "/");
-    offset += 1;
+    int err = path_copy(buf, &offset, *len, "/", 1);
+    if (err < 0) goto err;
   }
 
   buf[offset] = '\0';

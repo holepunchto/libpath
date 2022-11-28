@@ -12,7 +12,7 @@ path_is_absolute_posix (const char *path) {
 
   size_t path_len = strlen(path);
 
-  return path_len > 0 && path[0] == path_separator_posix;
+  return path_len > 0 && path_is_posix_separator(path[0]);
 }
 
 #endif // PATH_POSIX_IS_ABSOLUTE_H

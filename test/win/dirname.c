@@ -1,21 +1,33 @@
 #include <assert.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "../../include/path.h"
 
-static path_separator_t sep = path_separator_windows;
+#define test_dirname(path, expected) \
+  { \
+    size_t len; \
+    int err = path_dirname(path, &len, path_separator_windows); \
+    printf("%s -> %.*s\n", path, (int) len, path); \
+    assert(err == 0); \
+    assert(len == expected); \
+  }
 
 int
 main () {
-  int e;
+  test_dirname("", 0);
+  test_dirname("a", 0);
+  test_dirname("a\\b", 2);
+  test_dirname("a\\b\\c", 4);
 
-  {
-    size_t len;
-    e = path_dirname("a\\b\\c", &len, sep);
-    assert(e == 0);
-    assert(len == 4);
-  }
+  test_dirname("\\", 1);
+  test_dirname("\\a", 1);
+  test_dirname("\\a\\b", 3);
+  test_dirname("\\a\\b\\c", 5);
+
+  test_dirname("..", 0);
+  test_dirname("..\\..", 3);
 
   return 0;
 }

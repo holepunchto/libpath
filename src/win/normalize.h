@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "../../include/path.h"
+#include "shared.h"
 
 static inline int
 path_normalize_windows (const char *path, char *buf, size_t *len) {
@@ -27,6 +28,17 @@ path_normalize_windows (const char *path, char *buf, size_t *len) {
   bool has_trailing_sep = path_is_separator(path[path_len - 1]);
 
   size_t i = 0, offset = 0;
+
+  if (
+    path_len > 2 &&
+    is_windows_device_root(path[0]) &&
+    path[1] == ':'
+  ) {
+    int err = path_copy(buf, &offset, *len, path, 2);
+    if (err < 0) goto err;
+
+    i += 2;
+  }
 
   if (is_absolute) {
     while (path_is_separator(path[i])) {

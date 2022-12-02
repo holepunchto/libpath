@@ -55,7 +55,7 @@ path_normalize_posix (const char *path, char *buf, size_t *len) {
       path_dirname_posix(buf, &dirname);
 
       if (dirname) {
-        buf[offset = dirname - (is_absolute ? 0 : 1)] = '\0';
+        buf[offset = dirname - (dirname == 1 ? 0 : 1)] = '\0';
         goto skip;
       } else {
         is_above_root = true;

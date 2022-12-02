@@ -52,6 +52,13 @@ main () {
   test_normalize("foo/bar/baz/../..", "foo");
   test_normalize("foo/bar/baz/../../", "foo/");
 
+  test_normalize("/foo/bar/..", "/foo");
+  test_normalize("/foo/bar/../", "/foo/");
+  test_normalize("/foo/bar/baz/..", "/foo/bar");
+  test_normalize("/foo/bar/baz/../", "/foo/bar/");
+  test_normalize("/foo/bar/baz/../..", "/foo");
+  test_normalize("/foo/bar/baz/../../", "/foo/");
+
   test_normalize("..", "..");
   test_normalize("../", "../");
   test_normalize("../..", "../..");

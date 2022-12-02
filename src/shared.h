@@ -1,6 +1,8 @@
 #ifndef PATH_SHARED_H
 #define PATH_SHARED_H
 
+#include <stddef.h>
+
 #include "../include/path.h"
 
 static inline int
@@ -9,7 +11,9 @@ path_copy (char *target, size_t *target_offset, size_t target_len, const char *s
 
   if (end > target_len) return -1;
 
-  memcpy(&target[*target_offset], source, len);
+  for (size_t i = 0, j = *target_offset; i < len; i++, j++) {
+    target[j] = source[i];
+  }
 
   *target_offset += len;
 

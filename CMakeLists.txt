@@ -1,11 +1,5 @@
 cmake_minimum_required(VERSION 3.22)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-
-if(WIN32)
-  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
-endif()
-
 project(path C)
 
 add_library(path OBJECT)
@@ -14,7 +8,7 @@ set_target_properties(
   path
   PROPERTIES
   C_STANDARD 99
-  POSITION_INDEPENDENT_CODE 1
+  POSITION_INDEPENDENT_CODE ON
 )
 
 target_sources(
@@ -48,6 +42,7 @@ set_target_properties(
   path_shared
   PROPERTIES
   OUTPUT_NAME path
+  WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
 add_library(path_static STATIC $<TARGET_OBJECTS:path>)

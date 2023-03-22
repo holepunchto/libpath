@@ -51,6 +51,7 @@ set_target_properties(
   path_static
   PROPERTIES
   OUTPUT_NAME path
+  PREFIX lib
 )
 
 install(TARGETS path_shared path_static)

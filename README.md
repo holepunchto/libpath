@@ -8,4 +8,4 @@ See [`include/path.h`](include/path.h) for the public API.
 
 ## License
 
-ISC
+Apache 2.0

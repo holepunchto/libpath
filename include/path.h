@@ -15,21 +15,15 @@ typedef enum {
   path_separator_windows = '\\',
 } path_separator_t;
 
-static const path_separator_t path_separator_system;
-
 typedef enum {
   path_delimiter_posix = ':',
   path_delimiter_windows = ';',
 } path_delimiter_t;
 
-static const path_delimiter_t path_delimiter_system;
-
 typedef enum {
   path_behavior_posix,
   path_behavior_windows
 } path_behavior_t;
-
-static const path_behavior_t path_behavior_system;
 
 #if defined(_WIN32)
 #include "path/win.h"

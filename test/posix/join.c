@@ -8,8 +8,8 @@
 
 #define test_join(expected, ...) \
   { \
-    size_t len = PATH_MAX; \
-    int err = path_join((const char *[]){__VA_ARGS__}, buf, &len, path_behavior_posix); \
+    size_t len = 4096; \
+    int err = path_join((const char *[]) {__VA_ARGS__}, buf, &len, path_behavior_posix); \
     printf("\"%s\"\n", buf); \
     assert(err == 0); \
     assert(len == strlen(expected)); \
@@ -18,7 +18,7 @@
 
 int
 main () {
-  char buf[PATH_MAX];
+  char buf[4096];
 
   test_join("", NULL);
   test_join("a", "a", NULL);

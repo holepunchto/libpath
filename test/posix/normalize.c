@@ -8,7 +8,7 @@
 
 #define test_normalize(path, expected) \
   { \
-    size_t len = PATH_MAX; \
+    size_t len = 4096; \
     int err = path_normalize(path, buf, &len, path_behavior_posix); \
     printf("%s -> %s\n", path, buf); \
     assert(err == 0); \
@@ -18,7 +18,7 @@
 
 int
 main () {
-  char buf[PATH_MAX];
+  char buf[4096];
 
   test_normalize("foo/.", "foo");
   test_normalize("foo/./", "foo/");

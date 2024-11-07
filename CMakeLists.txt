@@ -36,7 +36,7 @@ target_include_directories(
     include
 )
 
-add_library(path_shared SHARED $<TARGET_OBJECTS:path>)
+add_library(path_shared SHARED)
 
 set_target_properties(
   path_shared
@@ -45,7 +45,13 @@ set_target_properties(
   WINDOWS_EXPORT_ALL_SYMBOLS ON
 )
 
-add_library(path_static STATIC $<TARGET_OBJECTS:path>)
+target_link_libraries(
+  path_shared
+  PUBLIC
+    path
+)
+
+add_library(path_static STATIC)
 
 set_target_properties(
   path_static
@@ -54,11 +60,18 @@ set_target_properties(
   PREFIX lib
 )
 
+target_link_libraries(
+  path_static
+  PUBLIC
+    path
+)
+
 install(TARGETS path_shared path_static)
 
 install(FILES include/path.h DESTINATION include)
 
 if(PROJECT_IS_TOP_LEVEL)
   enable_testing()
+
   add_subdirectory(test)
 endif()

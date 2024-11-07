@@ -12,11 +12,21 @@ foreach(test IN LISTS tests)
 
   add_executable(${name} ${test}.c)
 
-  target_link_libraries(${name} path_shared)
+  target_link_libraries(
+    ${name}
+    PRIVATE
+      path_static
+  )
 
   add_test(
     NAME ${name}
     COMMAND ${name}
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+  )
+
+  set_tests_properties(
+    ${test}
+    PROPERTIES
+    TIMEOUT 30
   )
 endforeach()

@@ -25,7 +25,7 @@ foreach(test IN LISTS tests)
   )
 
   set_tests_properties(
-    ${test}
+    ${name}
     PROPERTIES
     TIMEOUT 30
   )

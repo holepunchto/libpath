@@ -11,7 +11,7 @@
 #include "win/normalize.h"
 
 int
-path_dirname (const char *path, size_t *len, path_behavior_t behavior) {
+path_dirname(const char *path, size_t *len, path_behavior_t behavior) {
   switch (behavior) {
   case path_behavior_posix:
     return path_dirname_posix(path, len);
@@ -21,7 +21,7 @@ path_dirname (const char *path, size_t *len, path_behavior_t behavior) {
 }
 
 int
-path_join (const char *fragments[], char *buf, size_t *len, path_behavior_t behavior) {
+path_join(const char *fragments[], char *buf, size_t *len, path_behavior_t behavior) {
   switch (behavior) {
   case path_behavior_posix:
     return path_join_posix(fragments, buf, len);
@@ -31,7 +31,7 @@ path_join (const char *fragments[], char *buf, size_t *len, path_behavior_t beha
 }
 
 int
-path_normalize (const char *path, char *buf, size_t *len, path_behavior_t behavior) {
+path_normalize(const char *path, char *buf, size_t *len, path_behavior_t behavior) {
   switch (behavior) {
   case path_behavior_posix:
     return path_normalize_posix(path, buf, len);
@@ -41,7 +41,7 @@ path_normalize (const char *path, char *buf, size_t *len, path_behavior_t behavi
 }
 
 bool
-path_is_absolute (const char *path, path_behavior_t behavior) {
+path_is_absolute(const char *path, path_behavior_t behavior) {
   switch (behavior) {
   case path_behavior_posix:
     return path_is_absolute_posix(path);
@@ -51,13 +51,13 @@ path_is_absolute (const char *path, path_behavior_t behavior) {
 }
 
 extern bool
-path_is_relative (const char *path, path_behavior_t behavior);
+path_is_relative(const char *path, path_behavior_t behavior);
 
 extern bool
-path_is_separator (char code);
+path_is_separator(char code);
 
 extern bool
-path_is_posix_separator (char code);
+path_is_posix_separator(char code);
 
 extern bool
-path_is_windows_separator (char code);
+path_is_windows_separator(char code);

@@ -8,7 +8,7 @@
 #include "shared.h"
 
 static inline bool
-path_is_absolute_windows (const char *path) {
+path_is_absolute_windows(const char *path) {
   if (!path) return false;
 
   size_t path_len = strlen(path);

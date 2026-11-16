@@ -7,7 +7,7 @@
 #include "../shared.h"
 
 static inline int
-path_normalize_posix (const char *path, char *buf, size_t *len) {
+path_normalize_posix(const char *path, char *buf, size_t *len) {
   if (!path || !buf || !len) goto err;
 
   if (*len < 1) goto err;

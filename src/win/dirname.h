@@ -8,7 +8,7 @@
 #include "../../include/path.h"
 
 static inline int
-path_dirname_windows (const char *path, size_t *len) {
+path_dirname_windows(const char *path, size_t *len) {
   if (!path || !len) return -1;
 
   size_t path_len = strlen(path);

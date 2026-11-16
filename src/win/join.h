@@ -8,7 +8,7 @@
 #include "normalize.h"
 
 static inline int
-path_join_windows (const char *fragments[], char *buf, size_t *len) {
+path_join_windows(const char *fragments[], char *buf, size_t *len) {
   if (!fragments || !buf) goto err;
 
   if (*len < 1) goto err;

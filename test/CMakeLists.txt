@@ -1,32 +1,16 @@
-list(APPEND tests
-  posix/dirname
-  posix/join
-  posix/normalize
-  win/dirname
-  win/join
-  win/normalize
+if(TARGET path_shared)
+  set(library path::shared)
+else()
+  set(library path::static)
+endif()
+
+add_test_executables(
+  posix/dirname.c
+  posix/join.c
+  posix/normalize.c
+  win/dirname.c
+  win/join.c
+  win/normalize.c
+  LINK
+    ${library}
 )
-
-foreach(test IN LISTS tests)
-  string(REPLACE "/" "_" name ${test})
-
-  add_executable(${name} ${test}.c)
-
-  target_link_libraries(
-    ${name}
-    PRIVATE
-      path_static
-  )
-
-  add_test(
-    NAME ${name}
-    COMMAND ${name}
-    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  )
-
-  set_tests_properties(
-    ${name}
-    PROPERTIES
-    TIMEOUT 30
-  )
-endforeach()

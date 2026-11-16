@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../../include/path.h"
+#include <path.h>
 
 #define test_normalize(path, expected) \
   { \
@@ -17,7 +17,7 @@
   }
 
 int
-main () {
+main() {
   char buf[4096];
 
   test_normalize("foo\\.", "foo");

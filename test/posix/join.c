@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../../include/path.h"
+#include <path.h>
 
 #define test_join(expected, ...) \
   { \
     size_t len = 4096; \
-    int err = path_join((const char *[]) {__VA_ARGS__}, buf, &len, path_behavior_posix); \
+    int err = path_join((const char *[]){__VA_ARGS__}, buf, &len, path_behavior_posix); \
     printf("\"%s\"\n", buf); \
     assert(err == 0); \
     assert(len == strlen(expected)); \
@@ -17,7 +17,7 @@
   }
 
 int
-main () {
+main() {
   char buf[4096];
 
   test_join("", NULL);

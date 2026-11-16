@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "../../include/path.h"
+#include <path.h>
 
 #define test_dirname(path, expected) \
   { \
@@ -15,7 +15,7 @@
   }
 
 int
-main () {
+main() {
   test_dirname("", 0);
   test_dirname("a", 0);
   test_dirname("a/b", 2);
